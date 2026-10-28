@@ -1,0 +1,30 @@
+# Core lab infrastructure (reproducibility, spec section 30 / 19).
+# Provides the isolated PostgreSQL used by the E3 SQL Injection experiment.
+# E2 runs in-process (deterministic). E1 has its own isolated network compose
+# at labs/e1_arp/docker/docker-compose.e1.yml.
+#
+# Scope section 0: all services are project-owned and bound to the local host /
+# a dedicated private Docker network only.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: iotlab_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}   # DEMO / LOCAL ONLY
+      POSTGRES_DB: ${POSTGRES_DB:-iotlab}
+    ports:
+      - "127.0.0.1:55432:5432"   # bound to loopback only (host 5432 reserved)
+    networks:
+      - iotlab_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-iotlab}"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+networks:
+  iotlab_net:
+    name: iotlab_net
+    driver: bridge

@@ -1,0 +1,22 @@
+[project]
+name = "iot-security-lab-v2-2"
+version = "2.2.0"
+description = "Assignment #3 IoT Security Lab - E1 ARP/MITM, E2 Replay, E3 SQLi (FROZEN V2.2)"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+markers = [
+    "unit: isolated unit tests",
+    "integration: integration tests (DB / HTTP)",
+    "security: security-behavior tests",
+    "acceptance: V2.2 acceptance-gate tests",
+]
+filterwarnings = [
+    # Third-party (starlette/fastapi on Python 3.14) - not our code.
+    "ignore:'asyncio.iscoroutinefunction' is deprecated:DeprecationWarning",
+]
+
+[tool.ruff]
+line-length = 100

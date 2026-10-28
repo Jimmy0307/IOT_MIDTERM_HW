@@ -1,0 +1,19 @@
+# Secrets / local config
+.env
+*.key
+server.key
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Evidence: keep structured results + text/json; exclude large/binary captures
+evidence/**/*.pcap
+evidence/**/*.pcap.*
+
+# OS
+.DS_Store
+Thumbs.db
