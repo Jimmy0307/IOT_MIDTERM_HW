@@ -5,9 +5,9 @@ All figures below are reproduced from committed evidence under `evidence/<exp>/<
 
 | Experiment | Run ID | Verdict |
 |---|---|---|
-| E1 ARP/MITM | `20261028T200912Z` | **PASS** |
-| E2 Replay | `20261028T195126Z` | **PASS** |
-| E3 SQL Injection | `20261028T195735Z` | **PASS** |
+| E1 ARP/MITM | `20261028T202401Z` | **PASS** |
+| E2 Replay | `20261028T202400Z` | **PASS** |
+| E3 SQL Injection | `20261028T202401Z` | **PASS** |
 
 ---
 
@@ -76,8 +76,8 @@ Evidence: `feasibility_gate.json`, `E1-01_baseline_arp.txt`,
 
 ARP has no authentication. The attacker sends unsolicited ARP replies binding the
 **gateway IP → attacker MAC** (and victim IP → attacker MAC at the gateway). The
-victim ARP entry for `10.77.0.2` changed from the gateway MAC (`ae:16:c1:8e:19:ab`)
-to the attacker MAC (`fa:c9:98:87:4b:14`). Evidence `E1-01` vs `E1-02`.
+victim ARP entry for `10.77.0.2` changed from the gateway MAC (`8e:2e:67:45:e0:fd`)
+to the attacker MAC (`32:83:f3:8c:36:6f`). Evidence `E1-01` vs `E1-02`.
 
 ### 5.3 MITM vs DoS (spec §7.2)
 

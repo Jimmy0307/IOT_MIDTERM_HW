@@ -1,0 +1,11 @@
+{
+  "clean_room_timestamp": "2026-10-28T20:26:20+00:00",
+  "git_commit": "b9d342d0dbf53c2e36969fb1d9e2c014d000864f",
+  "test_counts": "20 passed, 0 failed, 0 skipped",
+  "e1_run_id": "20261028T202401Z",
+  "e2_run_id": "20261028T202400Z",
+  "e3_run_id": "20261028T202401Z",
+  "report_path": "docs/final_report.md",
+  "canonical_spec_path": "docs/ASSIGNMENT3_IOT_SECURITY_LAB_V2_2_FROZEN.md",
+  "final_verdict": "PASS"
+}

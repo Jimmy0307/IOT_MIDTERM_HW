@@ -1,0 +1,2 @@
+normal='sensor-alpha'
+injection="' OR '1'='1"
