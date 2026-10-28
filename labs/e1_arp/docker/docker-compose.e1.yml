@@ -1,0 +1,52 @@
+# E1 isolated L2 lab: victim, gateway (destination), attacker on one private
+# bridge. NOT bridged to the real LAN (scope section 0 / spec section 5).
+#
+# Fixed topology - the attacker's targets are determined by this config, never
+# by arbitrary user input (scope: no arbitrary target).
+
+services:
+  gateway:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: e1_lab_node
+    container_name: e1_gateway
+    hostname: gateway
+    command: ["python", "/lab/gateway_server.py"]
+    cap_add: ["NET_ADMIN", "NET_RAW"]
+    networks:
+      e1_net:
+        ipv4_address: 10.77.0.2
+
+  victim:
+    image: e1_lab_node
+    container_name: e1_victim
+    hostname: victim
+    cap_add: ["NET_ADMIN", "NET_RAW"]
+    networks:
+      e1_net:
+        ipv4_address: 10.77.0.10
+
+  attacker:
+    image: e1_lab_node
+    container_name: e1_attacker
+    hostname: attacker
+    cap_add: ["NET_ADMIN", "NET_RAW"]
+    # /proc/sys is read-only in a container, so IP forwarding is provisioned here
+    # at creation (the attacker configures their own host). The forwarding-OFF
+    # case (ARP poisoned but traffic broken => DoS, NOT MITM, spec 7.2) is
+    # captured separately by the runner before forwarding takes effect.
+    sysctls:
+      net.ipv4.ip_forward: "1"
+      net.ipv4.conf.all.send_redirects: "0"
+    networks:
+      e1_net:
+        ipv4_address: 10.77.0.66
+
+networks:
+  e1_net:
+    name: e1_net
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.77.0.0/24
