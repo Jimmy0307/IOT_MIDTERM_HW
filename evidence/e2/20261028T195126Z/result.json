@@ -1,0 +1,194 @@
+{
+  "experiment_id": "e2",
+  "run_id": "20261028T195126Z",
+  "generated_at": "2026-10-28T19:51:26+00:00",
+  "verdict": "PASS",
+  "scenario_count": 8,
+  "scenarios": [
+    {
+      "experiment_id": "e2",
+      "scenario_id": "E2-VULN-EXACT-REPLAY",
+      "attacker_model": "holds one captured legitimate request (log leak / post-TLS internal)",
+      "trust_boundary": "TB-B / TB-D (message authentication + freshness)",
+      "expected_result": "EXACT_REPLAY=ACCEPT, ACTION_COUNT=2",
+      "actual_result": "first=1 replay=2",
+      "security_control": "none (vulnerable baseline)",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e2\\20261028T195126Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:51:26+00:00",
+      "detail": {
+        "first": {
+          "status": "ACCEPT",
+          "mode": "vulnerable",
+          "action": "DISPENSE",
+          "action_count": 1,
+          "nonce": "(none)",
+          "timestamp": "(none)"
+        },
+        "replay": {
+          "status": "ACCEPT",
+          "mode": "vulnerable",
+          "action": "DISPENSE",
+          "action_count": 2,
+          "nonce": "(none)",
+          "timestamp": "(none)"
+        }
+      }
+    },
+    {
+      "experiment_id": "e2",
+      "scenario_id": "E2-PROT-FIRST-ACCEPT",
+      "attacker_model": "holds one captured legitimate request (log leak / post-TLS internal)",
+      "trust_boundary": "TB-B / TB-D (message authentication + freshness)",
+      "expected_result": "FIRST_REQUEST=ACCEPT (action_count=1)",
+      "actual_result": "status=ACCEPT count=1",
+      "security_control": "HMAC(raw body)+timestamp+nonce",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e2\\20261028T195126Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:51:26+00:00",
+      "detail": {
+        "resp": {
+          "status": "ACCEPT",
+          "mode": "protected",
+          "action": "DISPENSE",
+          "action_count": 1,
+          "nonce": "ebecd1034daee7d3bfd4fa3f3eeae3a5",
+          "timestamp": "1793217086"
+        }
+      }
+    },
+    {
+      "experiment_id": "e2",
+      "scenario_id": "E2-PROT-EXACT-REPLAY",
+      "attacker_model": "holds one captured legitimate request (log leak / post-TLS internal)",
+      "trust_boundary": "TB-B / TB-D (message authentication + freshness)",
+      "expected_result": "EXACT_REPLAY=REJECT",
+      "actual_result": "status=401 reason=nonce already consumed (replay)",
+      "security_control": "nonce cache",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e2\\20261028T195126Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:51:26+00:00",
+      "detail": {
+        "resp": {
+          "status": "REJECT",
+          "reason": "nonce already consumed (replay)"
+        }
+      }
+    },
+    {
+      "experiment_id": "e2",
+      "scenario_id": "E2-PROT-MODIFIED-NONCE",
+      "attacker_model": "holds one captured legitimate request (log leak / post-TLS internal)",
+      "trust_boundary": "TB-B / TB-D (message authentication + freshness)",
+      "expected_result": "MODIFIED_NONCE_OLD_SIGNATURE=REJECT",
+      "actual_result": "status=401 reason=signature mismatch",
+      "security_control": "HMAC covers nonce",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e2\\20261028T195126Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:51:26+00:00",
+      "detail": {
+        "resp": {
+          "status": "REJECT",
+          "reason": "signature mismatch"
+        }
+      }
+    },
+    {
+      "experiment_id": "e2",
+      "scenario_id": "E2-PROT-MODIFIED-TIMESTAMP",
+      "attacker_model": "holds one captured legitimate request (log leak / post-TLS internal)",
+      "trust_boundary": "TB-B / TB-D (message authentication + freshness)",
+      "expected_result": "MODIFIED_TIMESTAMP_OLD_SIGNATURE=REJECT",
+      "actual_result": "status=401 reason=signature mismatch",
+      "security_control": "HMAC covers timestamp",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e2\\20261028T195126Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:51:26+00:00",
+      "detail": {
+        "resp": {
+          "status": "REJECT",
+          "reason": "signature mismatch"
+        }
+      }
+    },
+    {
+      "experiment_id": "e2",
+      "scenario_id": "E2-PROT-MODIFIED-BODY",
+      "attacker_model": "holds one captured legitimate request (log leak / post-TLS internal)",
+      "trust_boundary": "TB-B / TB-D (message authentication + freshness)",
+      "expected_result": "MODIFIED_BODY_OLD_SIGNATURE=REJECT",
+      "actual_result": "status=401 reason=signature mismatch",
+      "security_control": "HMAC covers raw body",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e2\\20261028T195126Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:51:26+00:00",
+      "detail": {
+        "resp": {
+          "status": "REJECT",
+          "reason": "signature mismatch"
+        }
+      }
+    },
+    {
+      "experiment_id": "e2",
+      "scenario_id": "E2-PROT-ACTION-STATE",
+      "attacker_model": "holds one captured legitimate request (log leak / post-TLS internal)",
+      "trust_boundary": "TB-B / TB-D (message authentication + freshness)",
+      "expected_result": "ACTION_COUNT_ON_REPLAY=UNCHANGED (=1)",
+      "actual_result": "action_count=1",
+      "security_control": "replay protection",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e2\\20261028T195126Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:51:26+00:00",
+      "detail": {
+        "action_count": 1
+      }
+    },
+    {
+      "experiment_id": "e2",
+      "scenario_id": "E2-PROT-AUDIT-LOG",
+      "attacker_model": "holds one captured legitimate request (log leak / post-TLS internal)",
+      "trust_boundary": "TB-B / TB-D (message authentication + freshness)",
+      "expected_result": "AUDIT_LOG_CREATED=YES",
+      "actual_result": "events=5",
+      "security_control": "audit logging",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e2\\20261028T195126Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:51:26+00:00",
+      "detail": {
+        "audit_sample": [
+          {
+            "event": "ACCEPT",
+            "device_id": "dispenser-01",
+            "nonce": "ebecd1034daee7d3bfd4fa3f3eeae3a5",
+            "reason": "valid signed request"
+          },
+          {
+            "event": "REJECT",
+            "device_id": "dispenser-01",
+            "nonce": "ebecd1034daee7d3bfd4fa3f3eeae3a5",
+            "reason": "nonce already consumed (replay)"
+          },
+          {
+            "event": "REJECT",
+            "device_id": "dispenser-01",
+            "nonce": "45b2b7a1d725a6d47fffea47bd70730d",
+            "reason": "signature mismatch"
+          },
+          {
+            "event": "REJECT",
+            "device_id": "dispenser-01",
+            "nonce": "78413f02cdc8121607622afb57d8f472",
+            "reason": "signature mismatch"
+          },
+          {
+            "event": "REJECT",
+            "device_id": "dispenser-01",
+            "nonce": "55737ffb1b8de3cfd8c871f459081fdf",
+            "reason": "signature mismatch"
+          }
+        ]
+      }
+    }
+  ]
+}

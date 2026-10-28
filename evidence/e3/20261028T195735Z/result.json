@@ -1,0 +1,171 @@
+{
+  "experiment_id": "e3",
+  "run_id": "20261028T195735Z",
+  "generated_at": "2026-10-28T19:57:35+00:00",
+  "verdict": "PASS",
+  "scenario_count": 8,
+  "scenarios": [
+    {
+      "experiment_id": "e3",
+      "scenario_id": "E3-VULN-SEMANTICS",
+      "attacker_model": "can reach the Backend API and supply malicious input",
+      "trust_boundary": "TB-C (code/data boundary + database authorization)",
+      "expected_result": "INPUT_CHANGES_QUERY_SEMANTICS=YES",
+      "actual_result": "normal_rows=1 injected_rows=4",
+      "security_control": "none (raw string interpolation baseline)",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e3\\20261028T195735Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:57:35+00:00",
+      "detail": {
+        "normal_rows": [
+          [
+            1,
+            "sensor-alpha",
+            "warehouse-1",
+            "active"
+          ]
+        ],
+        "injected_rows": [
+          [
+            1,
+            "sensor-alpha",
+            "warehouse-1",
+            "active"
+          ],
+          [
+            2,
+            "sensor-beta",
+            "warehouse-1",
+            "active"
+          ],
+          [
+            3,
+            "gateway-north",
+            "warehouse-2",
+            "active"
+          ],
+          [
+            4,
+            "pump-01",
+            "plant-floor",
+            "maintenance"
+          ]
+        ]
+      }
+    },
+    {
+      "experiment_id": "e3",
+      "scenario_id": "E3-FIXED-PARAMETERIZED",
+      "attacker_model": "can reach the Backend API and supply malicious input",
+      "trust_boundary": "TB-C (code/data boundary + database authorization)",
+      "expected_result": "SAME_INPUT_CHANGES_QUERY=NO (PREVENT)",
+      "actual_result": "param_normal_rows=1 param_injection_rows=0",
+      "security_control": "parameterized query",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e3\\20261028T195735Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:57:35+00:00",
+      "detail": {
+        "param_normal": [
+          [
+            1,
+            "sensor-alpha",
+            "warehouse-1",
+            "active"
+          ]
+        ],
+        "param_injection": []
+      }
+    },
+    {
+      "experiment_id": "e3",
+      "scenario_id": "E3-CONTAIN-ALLOWED-SELECT",
+      "attacker_model": "can reach the Backend API and supply malicious input",
+      "trust_boundary": "TB-C (code/data boundary + database authorization)",
+      "expected_result": "Allowed-table SELECT permitted",
+      "actual_result": "devices_rows=1 telemetry_rows=4",
+      "security_control": "role GRANT SELECT devices,telemetry",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e3\\20261028T195735Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:57:35+00:00",
+      "detail": {
+        "telemetry_count": 4
+      }
+    },
+    {
+      "experiment_id": "e3",
+      "scenario_id": "E3-CONTAIN-SENSITIVE-READ",
+      "attacker_model": "can reach the Backend API and supply malicious input",
+      "trust_boundary": "TB-C (code/data boundary + database authorization)",
+      "expected_result": "SENSITIVE_TABLE_READ=DENIED",
+      "actual_result": "InsufficientPrivilege: permission denied for table users",
+      "security_control": "role has no SELECT on users/secrets/audit_internal",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e3\\20261028T195735Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:57:35+00:00",
+      "detail": {
+        "injection": "' UNION SELECT id, username, password, 'x' FROM users --"
+      }
+    },
+    {
+      "experiment_id": "e3",
+      "scenario_id": "E3-CONTAIN-UNAUTH-UPDATE",
+      "attacker_model": "can reach the Backend API and supply malicious input",
+      "trust_boundary": "TB-C (code/data boundary + database authorization)",
+      "expected_result": "UNAUTHORIZED_UPDATE=DENIED",
+      "actual_result": "InsufficientPrivilege: permission denied for table devices",
+      "security_control": "role has no UPDATE",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e3\\20261028T195735Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:57:35+00:00",
+      "detail": {}
+    },
+    {
+      "experiment_id": "e3",
+      "scenario_id": "E3-CONTAIN-UNAUTH-DROP",
+      "attacker_model": "can reach the Backend API and supply malicious input",
+      "trust_boundary": "TB-C (code/data boundary + database authorization)",
+      "expected_result": "UNAUTHORIZED_DROP=DENIED",
+      "actual_result": "InsufficientPrivilege: must be owner of table devices",
+      "security_control": "role has no DROP/DDL",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e3\\20261028T195735Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:57:35+00:00",
+      "detail": {}
+    },
+    {
+      "experiment_id": "e3",
+      "scenario_id": "E3-DB-STATE",
+      "attacker_model": "can reach the Backend API and supply malicious input",
+      "trust_boundary": "TB-C (code/data boundary + database authorization)",
+      "expected_result": "DB state before == after",
+      "actual_result": "before=4 after=4",
+      "security_control": "non-destructive testing",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e3\\20261028T195735Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:57:35+00:00",
+      "detail": {}
+    },
+    {
+      "experiment_id": "e3",
+      "scenario_id": "E3-REGRESSION",
+      "attacker_model": "can reach the Backend API and supply malicious input",
+      "trust_boundary": "TB-C (code/data boundary + database authorization)",
+      "expected_result": "NORMAL_DEVICE_SEARCH=PASS",
+      "actual_result": "rows=1 name=sensor-alpha",
+      "security_control": "parameterized query",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e3\\20261028T195735Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-28T19:57:35+00:00",
+      "detail": {
+        "rows": [
+          [
+            1,
+            "sensor-alpha",
+            "warehouse-1",
+            "active"
+          ]
+        ]
+      }
+    }
+  ]
+}

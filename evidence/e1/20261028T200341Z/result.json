@@ -1,0 +1,24 @@
+{
+  "experiment_id": "e1",
+  "run_id": "20261028T200341Z",
+  "generated_at": "2026-10-28T20:03:42+00:00",
+  "verdict": "FAIL",
+  "scenario_count": 1,
+  "scenarios": [
+    {
+      "experiment_id": "e1",
+      "scenario_id": "E1-ENV",
+      "attacker_model": "on same L2 network; can send crafted ARP; can enable IP forwarding",
+      "trust_boundary": "TB-A (network trust)",
+      "expected_result": "lab starts",
+      "actual_result": "compose up failed",
+      "security_control": "docker",
+      "evidence_location": "D:\\HW_MID_CYBERIOT\\evidence\\e1\\20261028T200341Z",
+      "verdict": "FAIL",
+      "timestamp": "2026-10-28T20:03:42+00:00",
+      "detail": {
+        "stderr": " Image e1_lab_node Building \n Image e1_lab_node Built \n Network e1_net Creating \n Network e1_net Error Error response from daemon: invalid pool request: Pool overlaps with other one on this address space\nfailed to create network e1_net: Error response from daemon: invalid pool request: Pool overlaps with other one on this address space\n"
+      }
+    }
+  ]
+}

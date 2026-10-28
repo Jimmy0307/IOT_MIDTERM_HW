@@ -1,0 +1,50 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 526B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 717B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 71B done
+#5 DONE 0.0s
+
+#6 [1/4] FROM docker.io/library/python:3.12-slim@sha256:090ba77e2958f6af52a5341f788b50b032dd4ca28377d2893dcf1ecbdfdfe203
+#6 resolve docker.io/library/python:3.12-slim@sha256:090ba77e2958f6af52a5341f788b50b032dd4ca28377d2893dcf1ecbdfdfe203 0.0s done
+#6 DONE 0.0s
+
+#7 [3/4] WORKDIR /lab
+#7 CACHED
+
+#8 [2/4] RUN apt-get update && apt-get install -y --no-install-recommends         iproute2         iputils-ping         net-tools         tcpdump         curl         openssl         procps     && rm -rf /var/lib/apt/lists/*     && pip install --no-cache-dir "scapy==2.5.0"
+#8 CACHED
+
+#9 [4/4] COPY gateway_server.py arp_spoof.py /lab/
+#9 CACHED
+
+#10 exporting to image
+#10 exporting layers done
+#10 exporting manifest sha256:33301edcff598e7a9781591329ab33d2793c8bd3ee1c79659f1b64a1d2c61f6f done
+#10 exporting config sha256:786cb647f10e01b908329b488a2cdf08e0322276a56eae5e8917322fe2feba8a done
+#10 exporting attestation manifest sha256:321569d242b9d411cecc1b17ea788cb7cf404e08998a3f77742937b277941b94 0.0s done
+#10 exporting manifest list sha256:19dbd2d42c492648ed0e889bd5a2df6f2e95d120887cada60f8afd1782a0c192 done
+#10 naming to docker.io/library/e1_lab_node:latest done
+#10 unpacking to docker.io/library/e1_lab_node:latest done
+#10 DONE 0.1s
+
+#11 resolving provenance for metadata file
+#11 DONE 0.0s
+
+ Image e1_lab_node Building 
+ Image e1_lab_node Built 
+ Network e1_net Creating 
+ Network e1_net Error Error response from daemon: invalid pool request: Pool overlaps with other one on this address space
+failed to create network e1_net: Error response from daemon: invalid pool request: Pool overlaps with other one on this address space
