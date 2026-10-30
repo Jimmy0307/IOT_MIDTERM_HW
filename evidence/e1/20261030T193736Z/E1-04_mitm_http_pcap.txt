@@ -1,0 +1,189 @@
+19:37:57.328694 IP 10.77.0.10.33920 > 10.77.0.2.80: Flags [S], seq 2251165563, win 64240, options [mss 1460,sackOK,TS val 1317546727 ecr 0,nop,wscale 10], length 0
+E..<..@.@.@.
+M.
+
+M.....P...{...................
+N.*........
+
+19:37:57.328754 IP 10.77.0.10.33920 > 10.77.0.2.80: Flags [S], seq 2251165563, win 64240, options [mss 1460,sackOK,TS val 1317546727 ecr 0,nop,wscale 10], length 0
+E..<..@.?.A.
+M.
+
+M.....P...{...................
+N.*........
+
+19:37:57.328781 IP 10.77.0.2.80 > 10.77.0.10.33920: Flags [S.], seq 1692263212, ack 2251165564, win 65160, options [mss 1460,sackOK,TS val 1323117836 ecr 1317546727,nop,wscale 10], length 0
+E..<..@.@.&.
+M..
+M.
+.P..d..,...|...............
+N.-.N.*....
+
+19:37:57.328799 IP 10.77.0.2.80 > 10.77.0.10.33920: Flags [S.], seq 1692263212, ack 2251165564, win 65160, options [mss 1460,sackOK,TS val 1323117836 ecr 1317546727,nop,wscale 10], length 0
+E..<..@.?.'.
+M..
+M.
+.P..d..,...|...............
+N.-.N.*....
+
+19:37:57.328814 IP 10.77.0.10.33920 > 10.77.0.2.80: Flags [.], ack 1, win 63, options [nop,nop,TS val 1317546727 ecr 1323117836], length 0
+E..4..@.@.@.
+M.
+
+M.....P...|d..-...?.......
+N.*.N.-.
+19:37:57.328816 IP 10.77.0.10.33920 > 10.77.0.2.80: Flags [.], ack 1, win 63, options [nop,nop,TS val 1317546727 ecr 1323117836], length 0
+E..4..@.?.A.
+M.
+
+M.....P...|d..-...?.......
+N.*.N.-.
+19:37:57.328947 IP 10.77.0.10.33920 > 10.77.0.2.80: Flags [P.], seq 1:83, ack 1, win 63, options [nop,nop,TS val 1317546727 ecr 1323117836], length 82: HTTP: GET /telemetry HTTP/1.1
+E.....@.@.@>
+M.
+
+M.....P...|d..-...?.......
+N.*.N.-.GET /telemetry HTTP/1.1
+Host: 10.77.0.2
+User-Agent: curl/8.14.1
+Accept: */*
+
+
+19:37:57.328948 IP 10.77.0.10.33920 > 10.77.0.2.80: Flags [P.], seq 1:83, ack 1, win 63, options [nop,nop,TS val 1317546727 ecr 1323117836], length 82: HTTP: GET /telemetry HTTP/1.1
+E.....@.?.A>
+M.
+
+M.....P...|d..-...?.......
+N.*.N.-.GET /telemetry HTTP/1.1
+Host: 10.77.0.2
+User-Agent: curl/8.14.1
+Accept: */*
+
+
+19:37:57.328958 IP 10.77.0.2.80 > 10.77.0.10.33920: Flags [.], ack 83, win 64, options [nop,nop,TS val 1323117836 ecr 1317546727], length 0
+E..4..@.@.
+o
+M..
+M.
+.P..d..-.......@.......
+N.-.N.*.
+19:37:57.328959 IP 10.77.0.2.80 > 10.77.0.10.33920: Flags [.], ack 83, win 64, options [nop,nop,TS val 1323117836 ecr 1317546727], length 0
+E..4..@.?..o
+M..
+M.
+.P..d..-.......@.......
+N.-.N.*.
+19:37:57.329574 IP 10.77.0.2.80 > 10.77.0.10.33920: Flags [P.], seq 1:140, ack 83, win 64, options [nop,nop,TS val 1323117837 ecr 1317546727], length 139: HTTP: HTTP/1.0 200 OK
+E.....@.@.	.
+M..
+M.
+.P..d..-.......@.W.....
+N.-.N.*.HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.12.13
+Date: Fri, 30 Oct 2026 19:37:57 GMT
+Content-Type: text/plain
+Content-Length: 78
+
+
+19:37:57.329579 IP 10.77.0.2.80 > 10.77.0.10.33920: Flags [P.], seq 1:140, ack 83, win 64, options [nop,nop,TS val 1323117837 ecr 1317546727], length 139: HTTP: HTTP/1.0 200 OK
+E.....@.?.
+.
+M..
+M.
+.P..d..-.......@.W.....
+N.-.N.*.HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.12.13
+Date: Fri, 30 Oct 2026 19:37:57 GMT
+Content-Type: text/plain
+Content-Length: 78
+
+
+19:37:57.329605 IP 10.77.0.10.33920 > 10.77.0.2.80: Flags [.], ack 140, win 63, options [nop,nop,TS val 1317546728 ecr 1323117837], length 0
+E..4..@.@.@.
+M.
+
+M.....P....d......?.......
+N.*.N.-
+19:37:57.329607 IP 10.77.0.10.33920 > 10.77.0.2.80: Flags [.], ack 140, win 63, options [nop,nop,TS val 1317546728 ecr 1323117837], length 0
+E..4..@.?.A.
+M.
+
+M.....P....d......?.......
+N.*.N.-
+19:37:57.329626 IP 10.77.0.2.80 > 10.77.0.10.33920: Flags [P.], seq 140:218, ack 83, win 64, options [nop,nop,TS val 1323117837 ecr 1317546728], length 78: HTTP
+E.....@.@.
+.
+M..
+M.
+.P..d..........@.......
+N.-.N.*.scheme=http path=/telemetry token=SECRET_TELEMETRY_TOKEN_12345 server=gateway
+
+19:37:57.329627 IP 10.77.0.2.80 > 10.77.0.10.33920: Flags [P.], seq 140:218, ack 83, win 64, options [nop,nop,TS val 1323117837 ecr 1317546728], length 78: HTTP
+E.....@.?...
+M..
+M.
+.P..d..........@.......
+N.-.N.*.scheme=http path=/telemetry token=SECRET_TELEMETRY_TOKEN_12345 server=gateway
+
+19:37:57.329634 IP 10.77.0.10.33920 > 10.77.0.2.80: Flags [.], ack 218, win 63, options [nop,nop,TS val 1317546728 ecr 1323117837], length 0
+E..4..@.@.@.
+M.
+
+M.....P....d......?.......
+N.*.N.-
+19:37:57.329635 IP 10.77.0.10.33920 > 10.77.0.2.80: Flags [.], ack 218, win 63, options [nop,nop,TS val 1317546728 ecr 1323117837], length 0
+E..4..@.?.A.
+M.
+
+M.....P....d......?.......
+N.*.N.-
+19:37:57.329667 IP 10.77.0.10.33920 > 10.77.0.2.80: Flags [F.], seq 83, ack 218, win 63, options [nop,nop,TS val 1317546728 ecr 1323117837], length 0
+E..4..@.@.@.
+M.
+
+M.....P....d......?.......
+N.*.N.-
+19:37:57.329670 IP 10.77.0.2.80 > 10.77.0.10.33920: Flags [F.], seq 218, ack 83, win 64, options [nop,nop,TS val 1323117837 ecr 1317546728], length 0
+E..4..@.@.
+l
+M..
+M.
+.P..d..........@.......
+N.-.N.*.
+19:37:57.329671 IP 10.77.0.2.80 > 10.77.0.10.33920: Flags [F.], seq 218, ack 83, win 64, options [nop,nop,TS val 1323117837 ecr 1317546728], length 0
+E..4..@.?..l
+M..
+M.
+.P..d..........@.......
+N.-.N.*.
+19:37:57.329673 IP 10.77.0.10.33920 > 10.77.0.2.80: Flags [F.], seq 83, ack 218, win 63, options [nop,nop,TS val 1317546728 ecr 1323117837], length 0
+E..4..@.?.A.
+M.
+
+M.....P....d......?.......
+N.*.N.-
+19:37:57.329687 IP 10.77.0.2.80 > 10.77.0.10.33920: Flags [.], ack 84, win 64, options [nop,nop,TS val 1323117837 ecr 1317546728], length 0
+E..4..@.@.
+k
+M..
+M.
+.P..d..........@.......
+N.-.N.*.
+19:37:57.329688 IP 10.77.0.2.80 > 10.77.0.10.33920: Flags [.], ack 84, win 64, options [nop,nop,TS val 1323117837 ecr 1317546728], length 0
+E..4..@.?..k
+M..
+M.
+.P..d..........@.......
+N.-.N.*.
+19:37:57.329699 IP 10.77.0.10.33920 > 10.77.0.2.80: Flags [.], ack 219, win 63, options [nop,nop,TS val 1317546728 ecr 1323117837], length 0
+E..4..@.@.@.
+M.
+
+M.....P....d......?.......
+N.*.N.-
+19:37:57.329700 IP 10.77.0.10.33920 > 10.77.0.2.80: Flags [.], ack 219, win 63, options [nop,nop,TS val 1317546728 ecr 1323117837], length 0
+E..4..@.?.A.
+M.
+
+M.....P....d......?.......
+N.*.N.-

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "e1",
+  "run_id": "20261030T193736Z",
+  "created_at": "2026-10-30T19:37:36.037276+00:00",
+  "host": "LAPTOP-B32NKOAR",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.2",
+  "scope": "LAB / LOCAL ONLY - isolated project-owned components",
+  "pid": 40008
+}

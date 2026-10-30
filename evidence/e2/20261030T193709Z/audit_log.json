@@ -1,0 +1,32 @@
+[
+  {
+    "event": "ACCEPT",
+    "device_id": "dispenser-01",
+    "nonce": "c8ff485488b71bbfb9b99c4b881b0a69",
+    "reason": "valid signed request"
+  },
+  {
+    "event": "REJECT",
+    "device_id": "dispenser-01",
+    "nonce": "c8ff485488b71bbfb9b99c4b881b0a69",
+    "reason": "nonce already consumed (replay)"
+  },
+  {
+    "event": "REJECT",
+    "device_id": "dispenser-01",
+    "nonce": "fd1f727a6ba5150cc2f896a577d4265b",
+    "reason": "signature mismatch"
+  },
+  {
+    "event": "REJECT",
+    "device_id": "dispenser-01",
+    "nonce": "2998805094ff76f8639afe07d8cc07b6",
+    "reason": "signature mismatch"
+  },
+  {
+    "event": "REJECT",
+    "device_id": "dispenser-01",
+    "nonce": "688db7097d36f3af7cb483f520d417c5",
+    "reason": "signature mismatch"
+  }
+]

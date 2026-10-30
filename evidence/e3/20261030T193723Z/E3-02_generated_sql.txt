@@ -1,0 +1,2 @@
+SELECT id, name, location, status FROM devices WHERE name = 'sensor-alpha'
+SELECT id, name, location, status FROM devices WHERE name = '' OR '1'='1'

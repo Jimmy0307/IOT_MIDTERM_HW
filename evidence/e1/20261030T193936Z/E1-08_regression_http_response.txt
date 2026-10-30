@@ -1,0 +1,1 @@
+scheme=http path=/ token=SECRET_TELEMETRY_TOKEN_12345 server=gateway

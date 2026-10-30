@@ -1,0 +1,113 @@
+{
+  "experiment_id": "e1",
+  "run_id": "20261030T193736Z",
+  "generated_at": "2026-10-30T19:38:10+00:00",
+  "verdict": "FAIL",
+  "scenario_count": 7,
+  "scenarios": [
+    {
+      "experiment_id": "e1",
+      "scenario_id": "E1-FEASIBILITY-GATE",
+      "attacker_model": "on same L2 network; can send crafted ARP; can enable IP forwarding",
+      "trust_boundary": "TB-A (network trust)",
+      "expected_result": "all six feasibility conditions = YES",
+      "actual_result": "SAME_L2_DOMAIN=YES ARP_TABLE_VISIBLE=YES ARP_MAPPING_CAN_CHANGE=YES ATTACKER_IP_FORWARDING=YES TRAFFIC_CONTINUES_THROUGH_ATTACKER=YES PCAP_EVIDENCE_AVAILABLE=NO",
+      "security_control": "isolated L2 lab",
+      "evidence_location": "evidence/e1/20261030T193736Z",
+      "verdict": "FAIL",
+      "timestamp": "2026-10-30T19:38:00+00:00",
+      "detail": {
+        "SAME_L2_DOMAIN": true,
+        "ARP_TABLE_VISIBLE": true,
+        "ARP_MAPPING_CAN_CHANGE": true,
+        "ATTACKER_IP_FORWARDING": true,
+        "TRAFFIC_CONTINUES_THROUGH_ATTACKER": true,
+        "PCAP_EVIDENCE_AVAILABLE": false
+      }
+    },
+    {
+      "experiment_id": "e1",
+      "scenario_id": "E1-MITM-PATH",
+      "attacker_model": "on same L2 network; can send crafted ARP; can enable IP forwarding",
+      "trust_boundary": "TB-A (network trust)",
+      "expected_result": "victim ARP(gateway) -> attacker MAC AND forwarding on",
+      "actual_result": "baseline[10.77.0.2                ether   16:34:2c:5e:a4:73   C                     eth0] poisoned[10.77.0.2                ether   a6:71:78:66:56:4e   C                     eth0] ip_forward=1",
+      "security_control": "n/a (attack demonstration)",
+      "evidence_location": "evidence/e1/20261030T193736Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-30T19:38:00+00:00",
+      "detail": {
+        "attacker_mac": "a6:71:78:66:56:4e"
+      }
+    },
+    {
+      "experiment_id": "e1",
+      "scenario_id": "E1-DOS-WITHOUT-FORWARDING",
+      "attacker_model": "on same L2 network; can send crafted ARP; can enable IP forwarding",
+      "trust_boundary": "TB-A (network trust)",
+      "expected_result": "poisoned + forwarding dropped => traffic broken (DoS, not MITM)",
+      "actual_result": "traffic_broken=True (response empty=True)",
+      "security_control": "n/a (demonstrates DoS vs MITM distinction)",
+      "evidence_location": "evidence/e1/20261030T193736Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-30T19:38:00+00:00",
+      "detail": {}
+    },
+    {
+      "experiment_id": "e1",
+      "scenario_id": "E1-HTTP-PAYLOAD-EXPOSED",
+      "attacker_model": "on same L2 network; can send crafted ARP; can enable IP forwarding",
+      "trust_boundary": "TB-A (network trust)",
+      "expected_result": "plaintext token visible in attacker PCAP over HTTP",
+      "actual_result": "token_in_http_pcap=True",
+      "security_control": "none (plaintext HTTP)",
+      "evidence_location": "evidence/e1/20261030T193736Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-30T19:38:00+00:00",
+      "detail": {
+        "evidence": "E1-04_mitm_http_pcap.txt / E1-05"
+      }
+    },
+    {
+      "experiment_id": "e1",
+      "scenario_id": "E1-HTTPS-PAYLOAD-PROTECTED",
+      "attacker_model": "on same L2 network; can send crafted ARP; can enable IP forwarding",
+      "trust_boundary": "TB-A (network trust)",
+      "expected_result": "token NOT in HTTPS PCAP but valid response received (TLS protects payload)",
+      "actual_result": "token_in_https_pcap=False valid_response=True",
+      "security_control": "[I] TLS",
+      "evidence_location": "evidence/e1/20261030T193736Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-30T19:38:05+00:00",
+      "detail": {}
+    },
+    {
+      "experiment_id": "e1",
+      "scenario_id": "E1-TLS-CERT-VALIDATION",
+      "attacker_model": "on same L2 network; can send crafted ARP; can enable IP forwarding",
+      "trust_boundary": "TB-A (network trust)",
+      "expected_result": "valid CA connects; untrusted/self-signed rejected (no verify=false)",
+      "actual_result": "with_ca_exit=0 without_ca='000 rc=60'",
+      "security_control": "[I] Certificate validation",
+      "evidence_location": "evidence/e1/20261030T193736Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-30T19:38:05+00:00",
+      "detail": {}
+    },
+    {
+      "experiment_id": "e1",
+      "scenario_id": "E1-REGRESSION",
+      "attacker_model": "on same L2 network; can send crafted ARP; can enable IP forwarding",
+      "trust_boundary": "TB-A (network trust)",
+      "expected_result": "normal device traffic + valid TLS pass after restore (not 'block everything')",
+      "actual_result": "http_ok=True tls_ok=True arp_restored=True",
+      "security_control": "[I] TLS + restored network",
+      "evidence_location": "evidence/e1/20261030T193736Z",
+      "verdict": "PASS",
+      "timestamp": "2026-10-30T19:38:10+00:00",
+      "detail": {
+        "restored_arp": "10.77.0.2                ether   16:34:2c:5e:a4:73   C                     eth0"
+      }
+    }
+  ]
+}

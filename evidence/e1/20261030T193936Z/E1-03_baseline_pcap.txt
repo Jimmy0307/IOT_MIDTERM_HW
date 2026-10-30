@@ -1,0 +1,92 @@
+19:39:41.289965 IP 10.77.0.10.37562 > 10.77.0.2.80: Flags [S], seq 158728737, win 64240, options [mss 1460,sackOK,TS val 1571246171 ecr 0,nop,wscale 10], length 0
+E..<..@.@...
+M.
+
+M.....P	v.!...................
+].P[.......
+
+19:39:41.290040 IP 10.77.0.2.80 > 10.77.0.10.37562: Flags [S.], seq 366426868, ack 158728738, win 65160, options [mss 1460,sackOK,TS val 113161041 ecr 1571246171,nop,wscale 10], length 0
+E..<..@.@.&.
+M..
+M.
+.P....:.	v."...............
+...Q].P[...
+
+19:39:41.290050 IP 10.77.0.10.37562 > 10.77.0.2.80: Flags [.], ack 1, win 63, options [nop,nop,TS val 1571246171 ecr 113161041], length 0
+E..4..@.@...
+M.
+
+M.....P	v."..:....?.......
+].P[...Q
+19:39:41.290108 IP 10.77.0.10.37562 > 10.77.0.2.80: Flags [P.], seq 1:74, ack 1, win 63, options [nop,nop,TS val 1571246171 ecr 113161041], length 73: HTTP: GET / HTTP/1.1
+E..}..@.@..T
+M.
+
+M.....P	v."..:....?.......
+].P[...QGET / HTTP/1.1
+Host: 10.77.0.2
+User-Agent: curl/8.14.1
+Accept: */*
+
+
+19:39:41.290118 IP 10.77.0.2.80 > 10.77.0.10.37562: Flags [.], ack 74, win 64, options [nop,nop,TS val 113161041 ecr 1571246171], length 0
+E..4w.@.@..~
+M..
+M.
+.P....:.	v.k...@.......
+...Q].P[
+19:39:41.291350 IP 10.77.0.2.80 > 10.77.0.10.37562: Flags [P.], seq 1:140, ack 74, win 64, options [nop,nop,TS val 113161042 ecr 1571246171], length 139: HTTP: HTTP/1.0 200 OK
+E...w.@.@...
+M..
+M.
+.P....:.	v.k...@.W.....
+...R].P[HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.12.13
+Date: Fri, 30 Oct 2026 19:39:41 GMT
+Content-Type: text/plain
+Content-Length: 69
+
+
+19:39:41.291374 IP 10.77.0.10.37562 > 10.77.0.2.80: Flags [.], ack 140, win 63, options [nop,nop,TS val 1571246172 ecr 113161042], length 0
+E..4..@.@...
+M.
+
+M.....P	v.k..;....?.......
+].P\...R
+19:39:41.291395 IP 10.77.0.2.80 > 10.77.0.10.37562: Flags [P.], seq 140:209, ack 74, win 64, options [nop,nop,TS val 113161042 ecr 1571246172], length 69: HTTP
+E..yw.@.@..7
+M..
+M.
+.P....;.	v.k...@.......
+...R].P\scheme=http path=/ token=SECRET_TELEMETRY_TOKEN_12345 server=gateway
+
+19:39:41.291397 IP 10.77.0.10.37562 > 10.77.0.2.80: Flags [.], ack 209, win 63, options [nop,nop,TS val 1571246172 ecr 113161042], length 0
+E..4..@.@...
+M.
+
+M.....P	v.k..;....?.......
+].P\...R
+19:39:41.291423 IP 10.77.0.10.37562 > 10.77.0.2.80: Flags [F.], seq 74, ack 209, win 63, options [nop,nop,TS val 1571246172 ecr 113161042], length 0
+E..4..@.@...
+M.
+
+M.....P	v.k..;....?.......
+].P\...R
+19:39:41.291424 IP 10.77.0.2.80 > 10.77.0.10.37562: Flags [F.], seq 209, ack 74, win 64, options [nop,nop,TS val 113161042 ecr 1571246172], length 0
+E..4w.@.@..{
+M..
+M.
+.P....;.	v.k...@.......
+...R].P\
+19:39:41.291445 IP 10.77.0.2.80 > 10.77.0.10.37562: Flags [.], ack 75, win 64, options [nop,nop,TS val 113161042 ecr 1571246172], length 0
+E..4w.@.@..z
+M..
+M.
+.P....;.	v.l...@.......
+...R].P\
+19:39:41.291450 IP 10.77.0.10.37562 > 10.77.0.2.80: Flags [.], ack 210, win 63, options [nop,nop,TS val 1571246172 ecr 113161042], length 0
+E..4..@.@...
+M.
+
+M.....P	v.l..;....?.......
+].P\...R
