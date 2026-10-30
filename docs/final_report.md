@@ -12,7 +12,8 @@ Final run IDs are pinned in `evidence/FINAL_MANIFEST.json`.
 | E2 Replay | `20261030T193709Z` | **PASS** |
 | E3 SQL Injection | `20261030T193723Z` | **PASS** |
 
-Test suite: 20 passed, 0 failed, 0 skipped.
+Test suite: 27 passed, 0 failed, 0 skipped (acceptance gates validate the
+manifest-pinned runs above).
 
 ---
 
@@ -185,6 +186,13 @@ Evidence items E3-01…E3-11 map to `E3-01_user_input.txt`,
 `E3-02_generated_sql.txt`, and `result.json` scenario IDs in
 [`EVIDENCE_INDEX.md`](./EVIDENCE_INDEX.md) § E3.
 
+**Evaluation boundary.** E3 validates the application data-access (code/data)
+boundary and database authorization. The runner calls the data-access functions
+directly against the lab PostgreSQL for deterministic evidence; HTTP transport
+behavior is not independently evaluated. E3-03 is therefore the application
+response/result representation (returned rows in `result.json`), not a captured
+HTTP response.
+
 - **Vulnerable baseline (genuine raw SQL interpolation, spec §21.1):** normal
   input `sensor-alpha` → 1 row; injection `' OR '1'='1` → 4 rows. Input changes
   query semantics. Evidence `E3-01…E3-02`, `E3-VULN-SEMANTICS`.
@@ -209,12 +217,18 @@ on an allowed table could still read all permitted telemetry (spec §27).
 ## 8. Cross-Layer Analysis
 
 ```
-Network Trust (E1)  → ARP/TLS protect the path & payload confidentiality
+Network Trust (E1)  → ARP spoofing demonstrates compromise of the L2 forwarding path
+                    → TLS + certificate validation protect application payload
+                      confidentiality/integrity even when the network path is hostile
       ↓
 Message Trust (E2)  → HMAC+nonce+timestamp protect request authenticity/freshness
       ↓
 Application/Data Trust (E3) → parameterized query + least privilege protect code/data
 ```
+TLS does not prevent ARP spoofing and does not restore the forwarding path; it
+keeps the payload confidential and tamper-evident while the path is hostile, but
+it protects neither availability nor a compromised endpoint.
+
 Each control protects exactly one failure domain. Correct TLS (E1) does nothing
 against a replayed authenticated request (E2); replay protection (E2) does nothing
 against malicious SQL from a legitimate client (E3); parameterized queries (E3) do

@@ -13,8 +13,10 @@ final manifest (`evidence/FINAL_MANIFEST.json`).
 | E3 SQL Injection | `20261030T193723Z` | `evidence/e3/20261030T193723Z/result.json` | PASS |
 
 Source commit `b88c364`; evidence-freeze commit `62d8909`; test suite
-`20 passed, 0 failed, 0 skipped`. Every final `result.json` records
-`evidence_location` as the repository-relative path `evidence/<exp>/<run_id>`.
+`27 passed, 0 failed, 0 skipped`. The acceptance-gate tests resolve exactly
+these manifest-pinned runs and never select a run by file timestamp. Every final
+`result.json` records `evidence_location` as the repository-relative path
+`evidence/<exp>/<run_id>`.
 
 ## Final vs historical runs
 
@@ -66,6 +68,14 @@ All E2 PASS gates are in `evidence/e2/20261030T193709Z/result.json`:
 
 ## E3 SQL Injection mapping (run `20261030T193723Z`)
 
+**Evaluation boundary.** E3 experimentally validates the application
+data-access (code/data) boundary and database authorization. The runner calls
+the data-access functions (`labs/e3_sqli/vulnerable.py`, `labs/e3_sqli/safe.py`)
+and the least-privilege role directly against the lab PostgreSQL for
+deterministic evidence. HTTP transport behavior is **not** independently
+evaluated in E3; no HTTP response was captured, and no E3 artifact is
+presented as one.
+
 The E3 runner consolidates gate results in
 `evidence/e3/20261030T193723Z/result.json` rather than emitting eleven
 separate files. The mapping below makes that consolidation explicit:
@@ -74,7 +84,7 @@ separate files. The mapping below makes that consolidation explicit:
 |---|---|
 | E3-01 User Input | `E3-01_user_input.txt` |
 | E3-02 Generated SQL / DB Query Log | `E3-02_generated_sql.txt` |
-| E3-03 HTTP Response | `result.json` scenarios `E3-VULN-SEMANTICS` and `E3-FIXED-PARAMETERIZED` (the runner uses direct DB calls rather than an HTTP server) |
+| E3-03 HTTP Response | Application response/result representation; HTTP transport not independently exercised. Source: the returned rows recorded in `result.json` details for `E3-VULN-SEMANTICS` and `E3-FIXED-PARAMETERIZED` |
 | E3-04 Returned Row Count | `result.json` details for `E3-VULN-SEMANTICS` (1 vs 4 rows) and `E3-FIXED-PARAMETERIZED` (1 vs 0 rows) |
 | E3-05 Parameterized Query Result | `result.json` scenario `E3-FIXED-PARAMETERIZED` |
 | E3-06 DB State | `result.json` scenario `E3-DB-STATE` (before = after = 4) |
