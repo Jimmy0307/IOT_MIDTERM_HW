@@ -65,9 +65,13 @@ evidence/  evidence/<exp>/<run_id>/ : metadata.json, result.json, logs, captures
 
 Each runner writes `evidence/<exp>/<run_id>/result.json` using the unified schema
 (spec §31) with a `PASS/FAIL/PARTIAL` verdict per scenario. A PASS without
-evidence is treated as FAIL (spec §2). The acceptance-gate tests
-(`tests/test_acceptance_gates.py`) re-validate the latest evidence against the
-V2.2 Final Acceptance Gates (spec §35).
+evidence is treated as FAIL (spec §2). The final submission gates
+(`tests/test_acceptance_gates.py`) validate the manifest-pinned authoritative
+runs (`e1_run_id` / `e2_run_id` / `e3_run_id` in `evidence/FINAL_MANIFEST.json`)
+against the V2.2 Final Acceptance Gates (spec §35). They never select a run by
+file timestamp; a missing manifest, missing pinned `result.json`, or a
+`run_id` / `experiment_id` mismatch fails the suite. After producing new runs,
+update the manifest before re-validating.
 
 For the submission package, use [`docs/EVIDENCE_INDEX.md`](docs/EVIDENCE_INDEX.md)
 to map each frozen evidence item to its file or result scenario, and
