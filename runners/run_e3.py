@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import psycopg  # noqa: E402
 
-from labs.common.evidence import start_run  # noqa: E402
+from labs.common.evidence import relative_evidence_path, start_run  # noqa: E402
 from labs.common.result_schema import ExperimentReport, ScenarioResult, Verdict  # noqa: E402
 from labs.e3_sqli import db  # noqa: E402
 from labs.e3_sqli.safe import safe_search  # noqa: E402
@@ -58,7 +58,7 @@ def _denied(conn, sql: str) -> tuple[bool, str]:
 
 def main() -> int:
     run = start_run("e3")
-    ev = str(run.dir)
+    ev = relative_evidence_path(run.dir)
     results: list[ScenarioResult] = []
 
     db.seed()

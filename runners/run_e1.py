@@ -17,7 +17,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from labs.common.evidence import start_run  # noqa: E402
+from labs.common.evidence import relative_evidence_path, start_run  # noqa: E402
 from labs.common.result_schema import ExperimentReport, ScenarioResult, Verdict  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[1]
@@ -70,7 +70,7 @@ def arp_line(container: str, ip: str) -> str:
 
 def main() -> int:
     run_ev = start_run("e1")
-    ev = str(run_ev.dir)
+    ev = relative_evidence_path(run_ev.dir)
     results: list[ScenarioResult] = []
     feasibility_ok = True
 
@@ -106,8 +106,26 @@ def main() -> int:
     baseline_arp = arp_line("e1_victim", GATEWAY_IP)
     run_ev.write_text("E1-01_baseline_arp.txt", baseline_arp + "\n")
 
+    # Capture the required pre-attack baseline before ARP poisoning starts.
+    # Keep both the raw PCAP and a deterministic text rendering for review.
+    # Captured on the victim: before poisoning the bridge switches
+    # victim<->gateway unicast past the attacker, so an attacker-side capture
+    # is empty by design.
+    dexec_d("e1_victim", ["sh", "-c",
+            f"rm -f /lab/baseline_http.pcap /lab/tcpdump_baseline_http.log; "
+            f"tcpdump -i eth0 -w /lab/baseline_http.pcap host {VICTIM_IP} and port 80 "
+            f">/lab/tcpdump_baseline_http.log 2>&1"])
+    time.sleep(1)
     base_resp = dexec("e1_victim", ["curl", "-s", f"http://{GATEWAY_IP}/"]).stdout
     run_ev.write_text("E1-03_baseline_http_response.txt", base_resp)
+    time.sleep(2)
+    dexec("e1_victim", ["pkill", "-x", "tcpdump"])
+    time.sleep(1)
+    baseline_pcap = dexec("e1_victim", ["sh", "-c",
+        "tcpdump -r /lab/baseline_http.pcap -nn -c 50 -A 2>/dev/null"]).stdout
+    run_ev.write_text("E1-03_baseline_pcap.txt", baseline_pcap)
+    baseline_pcap_copy = run(["docker", "cp", "e1_victim:/lab/baseline_http.pcap",
+                              str(run_ev.path("E1-03_baseline.pcap"))])
 
     # Attacker MAC + IP forwarding (provisioned at creation via compose sysctl).
     att_mac = dexec("e1_attacker", ["cat", "/sys/class/net/eth0/address"]).stdout.strip()
@@ -147,6 +165,8 @@ def main() -> int:
     pcap_read = dexec("e1_attacker", ["sh", "-c",
                       "tcpdump -r /lab/mitm_http.pcap -nn -c 50 -A 2>/dev/null"]).stdout
     run_ev.write_text("E1-04_mitm_http_pcap.txt", pcap_read)
+    mitm_http_pcap_copy = run(["docker", "cp", "e1_attacker:/lab/mitm_http.pcap",
+                               str(run_ev.path("E1-04_mitm_http.pcap"))])
 
     # ---------------- Feasibility gate conditions ----------------
     victim_net = dexec("e1_victim", ["sh", "-c", "ip -o -4 addr show eth0"]).stdout.strip()
@@ -157,7 +177,17 @@ def main() -> int:
                        and poisoned_arp != baseline_arp)
     ip_fwd = ipf == "1"
     traffic_continues = TOKEN in mitm_resp
-    pcap_available = (VICTIM_IP in pcap_read) and len(pcap_read.strip()) > 0
+    baseline_pcap_available = (
+        VICTIM_IP in baseline_pcap
+        and len(baseline_pcap.strip()) > 0
+        and baseline_pcap_copy.returncode == 0
+    )
+    pcap_available = (
+        baseline_pcap_available
+        and VICTIM_IP in pcap_read
+        and len(pcap_read.strip()) > 0
+        and mitm_http_pcap_copy.returncode == 0
+    )
 
     gate = {
         "SAME_L2_DOMAIN": same_l2,
@@ -224,6 +254,8 @@ def main() -> int:
     https_pcap = dexec("e1_attacker", ["sh", "-c",
                        "tcpdump -r /lab/mitm_https.pcap -nn -c 80 -A 2>/dev/null"]).stdout
     run_ev.write_text("E1-06_mitm_https_pcap.txt", https_pcap)
+    mitm_https_pcap_copy = run(["docker", "cp", "e1_attacker:/lab/mitm_https.pcap",
+                                str(run_ev.path("E1-06_mitm_https.pcap"))])
 
     https_payload_protected = (TOKEN not in https_pcap) and (TOKEN in https_ok.stdout)
     results.append(mk(
@@ -261,6 +293,9 @@ def main() -> int:
     reg_https = dexec("e1_victim", ["sh", "-c",
                       f"curl -s -m 6 --cacert /lab/server.crt "
                       f"--resolve gateway:443:{GATEWAY_IP} https://gateway/"])
+    run_ev.write_text("E1-08_regression_http_response.txt", reg_http)
+    run_ev.write_text("E1-08_regression_https_response.txt",
+                      reg_https.stdout + "\nEXIT=" + str(reg_https.returncode))
     normal_ok = (TOKEN in reg_http) and (TOKEN in reg_https.stdout) \
         and (att_mac not in restored_arp)
     results.append(mk(

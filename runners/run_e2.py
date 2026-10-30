@@ -14,7 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from fastapi.testclient import TestClient  # noqa: E402
 
-from labs.common.evidence import start_run  # noqa: E402
+from labs.common.evidence import relative_evidence_path, start_run  # noqa: E402
 from labs.common.result_schema import ExperimentReport, ScenarioResult, Verdict  # noqa: E402
 from labs.e2_replay.client import build_signed_request, make_nonce  # noqa: E402
 from labs.e2_replay.server import ReplayLab, create_app  # noqa: E402
@@ -38,7 +38,7 @@ def _r(scenario: str, expected: str, actual: str, control: str, ok: bool,
 
 def main() -> int:
     run = start_run("e2")
-    ev = str(run.dir)
+    ev = relative_evidence_path(run.dir)
     results: list[ScenarioResult] = []
 
     # --- Baseline: vulnerable mode, exact replay accepted ---

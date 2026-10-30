@@ -74,3 +74,8 @@ def start_run(experiment_id: str, run_id: str | None = None) -> EvidenceRun:
         },
     )
     return run
+
+
+def relative_evidence_path(path: Path) -> str:
+    """Return a portable, repository-relative evidence path."""
+    return path.relative_to(REPO_ROOT).as_posix()
