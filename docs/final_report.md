@@ -2,12 +2,17 @@
 
 Canonical spec: [`ASSIGNMENT3_IOT_SECURITY_LAB_V2_2_FROZEN.md`](./ASSIGNMENT3_IOT_SECURITY_LAB_V2_2_FROZEN.md).
 All figures below are reproduced from committed evidence under `evidence/<exp>/<run_id>/`.
+Evidence map: [`EVIDENCE_INDEX.md`](./EVIDENCE_INDEX.md) maps every frozen evidence
+item (E1-01…E1-08, E2 gates, E3-01…E3-11) to its file or `result.json` scenario.
+Final run IDs are pinned in `evidence/FINAL_MANIFEST.json`.
 
 | Experiment | Run ID | Verdict |
 |---|---|---|
-| E1 ARP/MITM | `20261028T202401Z` | **PASS** |
-| E2 Replay | `20261028T202400Z` | **PASS** |
-| E3 SQL Injection | `20261028T202401Z` | **PASS** |
+| E1 ARP/MITM | `20261030T193936Z` | **PASS** |
+| E2 Replay | `20261030T193709Z` | **PASS** |
+| E3 SQL Injection | `20261030T193723Z` | **PASS** |
+
+Test suite: 20 passed, 0 failed, 0 skipped.
 
 ---
 
@@ -70,14 +75,19 @@ attacker `.66`. Not bridged to any real LAN; targets are fixed by the topology
 | PCAP_EVIDENCE_AVAILABLE | YES |
 
 Evidence: `feasibility_gate.json`, `E1-01_baseline_arp.txt`,
-`E1-02_poisoned_arp.txt`.
+`E1-02_poisoned_arp.txt`, and the E1-03 baseline PCAP: raw
+`E1-03_baseline.pcap` with its text rendering `E1-03_baseline_pcap.txt`
+(captured on the victim before the attack, because before poisoning the switch
+does not forward victim/gateway traffic to the attacker). The MITM captures are
+raw `E1-04_mitm_http.pcap` and `E1-06_mitm_https.pcap` (captured on the
+attacker), each with a text rendering.
 
 ### 5.2 Root cause (spec §7.1)
 
 ARP has no authentication. The attacker sends unsolicited ARP replies binding the
 **gateway IP → attacker MAC** (and victim IP → attacker MAC at the gateway). The
-victim ARP entry for `10.77.0.2` changed from the gateway MAC (`8e:2e:67:45:e0:fd`)
-to the attacker MAC (`32:83:f3:8c:36:6f`). Evidence `E1-01` vs `E1-02`.
+victim ARP entry for `10.77.0.2` changed from the gateway MAC (`4a:0f:22:2d:9b:4a`)
+to the attacker MAC (`46:ca:02:a9:48:20`). Evidence `E1-01` vs `E1-02`.
 
 ### 5.3 MITM vs DoS (spec §7.2)
 
@@ -92,14 +102,17 @@ to the attacker MAC (`32:83:f3:8c:36:6f`). Evidence `E1-01` vs `E1-02`.
 
 - **HTTP:** the plaintext token `SECRET_TELEMETRY_TOKEN_12345` appears in the
   attacker's capture (2 occurrences). Payload exposed. Evidence
-  `E1-04_mitm_http_pcap.txt`, `E1-05`.
+  raw `E1-04_mitm_http.pcap`, `E1-04_mitm_http_pcap.txt`,
+  `E1-05_mitm_http_response.txt`.
 - **HTTPS (certificate validation ENABLED):** under the same MITM path, the token
   does **not** appear in the attacker's TLS capture (0 occurrences), while the
   victim still gets a valid response. Payload confidentiality preserved. Evidence
-  `E1-06_mitm_https_pcap.txt`, `E1-06_https_response_validated.txt`.
+  raw `E1-06_mitm_https.pcap`, `E1-06_mitm_https_pcap.txt`,
+  `E1-06_https_response_validated.txt`.
 - **Cert validation is genuinely enforced** (no `verify=false`): with the trusted
   CA the connection succeeds (curl exit 0); without the CA in the trust store the
-  connection is **rejected** (curl exit 60, HTTP code 000). Evidence
+  TLS handshake is **rejected** (curl exit 60). The HTTP code `000` means no HTTP
+  response was received; it is not an HTTP success. Evidence
   `E1-07_cert_validation.txt`.
 
 ### 5.5 CIA (spec §7.5)
@@ -112,7 +125,9 @@ protected. Availability: dropping forwarding degrades service (DoS case).
 Implemented defense: **TLS + certificate validation**. After stopping the attack
 and restoring ARP, normal traffic works: HTTP OK, valid TLS OK, and the victim's
 ARP entry is restored to the gateway MAC — the control passes **without** relying
-on "block everything". Evidence `E1-08_restored_arp.txt`, `E1-REGRESSION`.
+on "block everything". Evidence `E1-08_restored_arp.txt`,
+`E1-08_regression_http_response.txt`, `E1-08_regression_https_response.txt`
+(curl exit 0), and `result.json` scenario `E1-REGRESSION`.
 
 ### 5.7 Residual risk (spec §7.8)
 
@@ -126,7 +141,9 @@ are **conceptual** here (not implemented).
 ## 6. Replay Extension (E2)
 
 **Boundary TB-B/TB-D.** Attacker holds one captured legitimate request and does
-**not** break TLS (spec §9).
+**not** break TLS (spec §9). Each gate below maps to a `result.json` scenario ID
+and supporting file (`audit_log.json`, `device_history.json`) in
+[`EVIDENCE_INDEX.md`](./EVIDENCE_INDEX.md) § E2.
 
 - **Vulnerable baseline:** no authentication → exact replay accepted →
   `action_count` 1 → 2. Evidence `E2-VULN-EXACT-REPLAY`.
@@ -164,6 +181,9 @@ key protection (TPM/SE/TEE) is conceptual only.
 ## 7. SQL Injection Extension (E3)
 
 **Boundary TB-C.** Attacker reaches the Backend API and supplies input (spec §6).
+Evidence items E3-01…E3-11 map to `E3-01_user_input.txt`,
+`E3-02_generated_sql.txt`, and `result.json` scenario IDs in
+[`EVIDENCE_INDEX.md`](./EVIDENCE_INDEX.md) § E3.
 
 - **Vulnerable baseline (genuine raw SQL interpolation, spec §21.1):** normal
   input `sensor-alpha` → 1 row; injection `' OR '1'='1` → 4 rows. Input changes

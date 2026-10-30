@@ -69,6 +69,13 @@ evidence is treated as FAIL (spec §2). The acceptance-gate tests
 (`tests/test_acceptance_gates.py`) re-validate the latest evidence against the
 V2.2 Final Acceptance Gates (spec §35).
 
+For the submission package, use [`docs/EVIDENCE_INDEX.md`](docs/EVIDENCE_INDEX.md)
+to map each frozen evidence item to its file or result scenario, and
+[`docs/SUBMISSION_PROVENANCE.md`](docs/SUBMISSION_PROVENANCE.md) for the roles
+of the source, evidence-freeze, and publication commits. Historical run
+directories are retained for provenance; only the run IDs in
+`evidence/FINAL_MANIFEST.json` are authoritative for the final report.
+
 ## Defense-in-depth labeling (spec §14/§29)
 
 `[I]` = implemented + verified in this lab; `[C]` = conceptual discussion only.

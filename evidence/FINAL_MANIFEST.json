@@ -1,11 +1,41 @@
 {
-  "clean_room_timestamp": "2026-10-28T20:26:20+00:00",
-  "git_commit": "b9d342d0dbf53c2e36969fb1d9e2c014d000864f",
+  "spec_version": "V2.2",
+  "evidence_run_window_utc": "2026-10-30T19:37:09Z/2026-10-30T19:39:41Z",
+  "source_commit": "b88c3649e9fccb592a20cf5e3f58c1271c39a233",
+  "evidence_freeze_commit": "62d89093854e705e8e2ce11e1fadcd7068ec4c98",
+  "git_commit": "b88c3649e9fccb592a20cf5e3f58c1271c39a233",
+  "test_command": "python -X utf8 -m pytest -q",
   "test_counts": "20 passed, 0 failed, 0 skipped",
-  "e1_run_id": "20261028T202401Z",
-  "e2_run_id": "20261028T202400Z",
-  "e3_run_id": "20261028T202401Z",
+  "e1_run_id": "20261030T193936Z",
+  "e2_run_id": "20261030T193709Z",
+  "e3_run_id": "20261030T193723Z",
+  "e1_feasibility_gate": "6/6 true",
+  "e1_raw_pcaps": {
+    "evidence/e1/20261030T193936Z/E1-03_baseline.pcap": {
+      "bytes": 1387,
+      "sha256": "13a7c3f98abc77ec1e0f7bdd64281a3cdd8a6b313a8f14f9bd3d0912c8b531e5",
+      "capture_point": "e1_victim eth0, pre-attack"
+    },
+    "evidence/e1/20261030T193936Z/E1-04_mitm_http.pcap": {
+      "bytes": 2622,
+      "sha256": "59dadd4476f17d694ca26be59cbc0715da7e4b7b54aeaf4a03201653cfff0084",
+      "capture_point": "e1_attacker eth0, ARP poisoned + forwarding"
+    },
+    "evidence/e1/20261030T193936Z/E1-06_mitm_https.pcap": {
+      "bytes": 12312,
+      "sha256": "4bb012fc9adc5a68c1b31ce47a99690488fc1defb5a7d86532f77163714ce230",
+      "capture_point": "e1_attacker eth0, ARP poisoned + forwarding"
+    }
+  },
+  "raw_pcap_note": "Raw .pcap files are gitignored; they ship in the submission ZIP and are pinned by the SHA-256 values above.",
+  "historical_non_final_runs": {
+    "e1": ["20261028T200057Z", "20261028T200341Z", "20261028T200436Z", "20261028T200912Z", "20261028T202401Z", "20261030T193736Z"],
+    "e2": ["20261028T195126Z", "20261028T202400Z"],
+    "e3": ["20261028T195735Z", "20261028T202401Z"]
+  },
   "report_path": "docs/final_report.md",
+  "report_artifacts": ["docs/final_report.docx", "docs/final_report.pdf"],
+  "evidence_index_path": "docs/EVIDENCE_INDEX.md",
   "canonical_spec_path": "docs/ASSIGNMENT3_IOT_SECURITY_LAB_V2_2_FROZEN.md",
   "final_verdict": "PASS"
 }
