@@ -10,40 +10,42 @@ Fresh demo runs:
 
 > These screenshots are fresh demonstration evidence produced from the same fixed commit. They supplement, but do not replace, the previously frozen submission evidence.
 
+Exact image hashes and backup metadata: [`DEMO_SCREENSHOT_MANIFEST.md`](DEMO_SCREENSHOT_MANIFEST.md)
+
 ## 1. Git version / clean tree
 
-![Git version and clean tree](demo_screenshots/01_git_version_clean_tree.png)
+[Open original PNG on Google Drive](https://drive.google.com/file/d/1onp55_uUfGX4mP7WIwA3SV0WbIo_ZFk0/view?usp=drivesdk)
 
 ## 2. Runtime environment
 
-![Python and Docker runtime](demo_screenshots/02_runtime_environment.png)
+[Open original PNG on Google Drive](https://drive.google.com/file/d/1ZHaiFKdJ82Xyxjnka-OWcg8QCTpB1QbL/view?usp=drivesdk)
 
 ## 3. E2 Replay Attack
 
-![E2 replay demonstration](demo_screenshots/03_e2_replay_demo.png)
+[Open original PNG on Google Drive](https://drive.google.com/file/d/1032c3CTUX-ZZECIBpVerWqMKH8M95Gt_/view?usp=drivesdk)
 
 Key result: vulnerable replay changes `action_count` from 1 to 2; protected replay is rejected and the state remains 1.
 
 ## 4. E3 and E1 execution
 
-![E3 and E1 execution](demo_screenshots/04_e3_and_e1_execution.png)
+[Open original PNG on Google Drive](https://drive.google.com/file/d/1xQj6OOdcuHiAH-nvYIQiiQbxi-ekY6bP/view?usp=drivesdk)
 
 E3 demonstrates `1 row -> 4 rows -> 0 rows` and least-privilege denials. E1 runner shows feasibility, MITM, HTTP/HTTPS, TLS certificate validation, and regression PASS.
 
 ## 5. E1 ARP / HTTP / HTTPS / TLS
 
-![ARP HTTP HTTPS TLS](demo_screenshots/05_e1_arp_http_https_tls.png)
+[Open original PNG on Google Drive](https://drive.google.com/file/d/1ReOt-DYKhiMhSHpEThE2OX034dhdEOf8/view?usp=drivesdk)
 
 Key result: Gateway IP keeps the same IP but changes MAC under ARP spoofing; HTTP token occurrences = 2, HTTPS token occurrences = 0; trusted CA succeeds and untrusted CA is rejected.
 
 ## 6. Recovery and complete tests
 
-![Recovery and tests](demo_screenshots/06_recovery_tests_summary.png)
+[Open original PNG on Google Drive](https://drive.google.com/file/d/15hbD7nfZCOG8DUlkBZbKN5fcvGV10lkq/view?usp=drivesdk)
 
 Key result: ARP is restored, normal HTTP/HTTPS service works again, and the full suite reports 27 passed.
 
 ## 7. Final demo summary
 
-![Final demo summary](demo_screenshots/07_final_demo_summary.png)
+[Open original PNG on Google Drive](https://drive.google.com/file/d/1fno16Om6Ug7ocp5lMfn_4PhDkKS_HHpC/view?usp=drivesdk)
 
 All three experiments are reproduced successfully from the fixed repository baseline.
