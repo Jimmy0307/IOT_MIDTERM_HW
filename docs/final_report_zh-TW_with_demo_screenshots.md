@@ -8,11 +8,11 @@ Repository baseline: `d314a283ffef79050dc5a358003caaafa13a710c`
 |---|---|---|---|
 | E1 ARP Spoofing / MITM | `20261030T193936Z` | `20261031T061521Z` | PASS |
 | E2 Replay Attack | `20261030T193709Z` | `20261031T061513Z` | PASS |
-| E3 SQL Injection | `20261030T193723Z` | `20261031T061520Z` | PASS |
+| E3 SQL Injection | `20261030T193723Z` | `20261031T070851Z` | PASS |
 
 完整測試：**27 passed, 0 failed, 0 skipped**。
 
-本報告保留正式 evidence baseline；以下 PowerShell 圖片來自同一 Git commit 的 fresh demo run，用來補充課堂要求的實際操作證據與可重現性證明。原始 PNG、DOCX、PDF 已備份至 Google Drive；各圖 SHA-256 與 Drive 路徑記錄於 [`DEMO_SCREENSHOT_MANIFEST.md`](DEMO_SCREENSHOT_MANIFEST.md)。
+本報告保留正式 evidence baseline；以下 PowerShell 圖片來自同一 Git commit 的 fresh demo run，用來補充課堂要求的實際操作證據與可重現性證明。
 
 ## 1. 核心概念
 
@@ -26,15 +26,17 @@ IoT Security 是跨層信任管理問題：
 
 ## 2. 實驗版本與環境
 
-- [Git version / clean tree 截圖](https://drive.google.com/file/d/1onp55_uUfGX4mP7WIwA3SV0WbIo_ZFk0/view?usp=drivesdk)
-- [Python / Docker 執行環境截圖](https://drive.google.com/file/d/1ZHaiFKdJ82Xyxjnka-OWcg8QCTpB1QbL/view?usp=drivesdk)
+![Git version and clean tree](demo_screenshots/01_git_version_clean_tree.png)
+
+![Runtime environment](demo_screenshots/02_runtime_environment.png)
 
 ## 3. E1 — ARP Spoofing / MITM
 
 ARP 缺乏強式身分驗證。攻擊者可偽造 ARP Reply，使 Victim 將 Gateway IP 對應到 Attacker MAC。若攻擊者不 forwarding，結果是 DoS；開啟 forwarding 並讓流量持續通過攻擊者，才構成真正 MITM。
 
-- [E3 與 E1 Runner 執行結果](https://drive.google.com/file/d/1xQj6OOdcuHiAH-nvYIQiiQbxi-ekY6bP/view?usp=drivesdk)
-- [ARP Before/After、HTTP/HTTPS、TLS Certificate Validation](https://drive.google.com/file/d/1ReOt-DYKhiMhSHpEThE2OX034dhdEOf8/view?usp=drivesdk)
+![E3 and E1 execution](demo_screenshots/04_e3_and_e1_execution.png)
+
+![ARP HTTP HTTPS TLS](demo_screenshots/05_e1_arp_http_https_tls.png)
 
 Fresh Demo 顯示：
 
@@ -46,7 +48,7 @@ Fresh Demo 顯示：
 
 TLS 不會阻止 ARP Spoofing，也不會修復 forwarding path；它是在 hostile network path 上保護 application payload confidentiality / integrity。
 
-- [Recovery / Regression 與 27 tests](https://drive.google.com/file/d/15hbD7nfZCOG8DUlkBZbKN5fcvGV10lkq/view?usp=drivesdk)
+![Recovery and tests](demo_screenshots/06_recovery_tests_summary.png)
 
 攻擊停止後 ARP Mapping 恢復，正常 HTTP / HTTPS 服務可再次使用，並通過 regression。
 
@@ -54,7 +56,7 @@ TLS 不會阻止 ARP Spoofing，也不會修復 forwarding path；它是在 host
 
 Replay Attack 不需要破解 TLS。攻擊者只要取得一份合法 request，便可能原封不動再次送出。
 
-- [E2 Replay Fresh Demo 截圖](https://drive.google.com/file/d/1032c3CTUX-ZZECIBpVerWqMKH8M95Gt_/view?usp=drivesdk)
+![E2 replay demonstration](demo_screenshots/03_e2_replay_demo.png)
 
 - Vulnerable：first request = 1，replay = 2。
 - Protected：exact replay 被 401 拒絕，`action_count` 保持 1。
@@ -77,6 +79,10 @@ E3 驗證 Application Data-Access / Code-Data Boundary 與 DB Authorization；HT
 
 Parameterized Query 是 **PREVENT**；Least Privilege 是 **CONTAIN**，兩者作用不同。
 
+![PostgreSQL + E3 clean rerun](demo_screenshots/08_postgresql_e3_clean.png)
+
+Fresh clean rerun：先移除舊 `iotlab_postgres` 與 `iotlab_net`，重新以 Docker Compose 建立 PostgreSQL；容器確認 `healthy` 後再執行 E3。結果仍為 normal=1 row、injection=4 rows、parameterized malicious input=0 rows，Sensitive SELECT／UPDATE／DROP 均被拒絕。
+
 ## 6. Defense-in-Depth
 
 | 層級 | 攻擊 | 實作控制 |
@@ -89,7 +95,7 @@ Parameterized Query 是 **PREVENT**；Least Privilege 是 **CONTAIN**，兩者�
 
 ## 7. Fresh Demo 最終結果
 
-- [Fresh Demo 最終摘要](https://drive.google.com/file/d/1fno16Om6Ug7ocp5lMfn_4PhDkKS_HHpC/view?usp=drivesdk)
+![Final demo summary](demo_screenshots/07_final_demo_summary.png)
 
 Fresh Demo 從固定 commit 再次成功重現 E1 / E2 / E3，完整測試 27 passed。
 
