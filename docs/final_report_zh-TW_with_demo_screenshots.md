@@ -2,7 +2,7 @@
 
 **IoT Security Lab V2.2｜繁體中文最終報告＋PowerShell 實作證據**
 
-Repository baseline: `d314a283ffef79050dc5a358003caaafa13a710c`
+實驗程式基線（Experiment Code Baseline）：`d314a283ffef79050dc5a358003caaafa13a710c`
 
 | 實驗 | 正式最終 Run | Fresh Demo Run | 結果 |
 |---|---|---|---|
@@ -12,7 +12,44 @@ Repository baseline: `d314a283ffef79050dc5a358003caaafa13a710c`
 
 完整測試：**27 passed, 0 failed, 0 skipped**。
 
-本報告保留正式 evidence baseline；PowerShell 圖片來自同一 Git commit 的 fresh demo run，用來補充課堂要求的實際操作證據與可重現性證明。完整含圖版請使用 Google Drive 中的 DOCX/PDF v2；下方提供每張原始 PNG 的 verified backup link。
+本報告保留正式 evidence baseline；PowerShell 圖片來自同一 Git commit 的 fresh demo run，用來補充課堂要求的實際操作證據與可重現性證明。
+
+## 作業整體流程圖｜E1 / E2 / E3 一頁總覽
+
+[高解析流程圖 PNG（Google Drive 備份）](https://drive.google.com/file/d/1gVQdnZZ0gIKsZ9PcQPG7nkuslEwu5yp7/view?usp=drivesdk) ｜ [GitHub repo-native 流程圖](IOT_SECURITY_FLOWCHART.md)
+
+```mermaid
+flowchart TB
+    A["Device / Client"] --> B["Network"] --> C["Transport / TLS"] --> D["Application / API"] --> E["Database"]
+
+    B --> E1A["E1｜ARP Spoofing / MITM"]
+    E1A --> E1B{"Attacker 是否 forwarding？"}
+    E1B -->|否| E1C["DoS / Availability 受影響"]
+    E1B -->|是| E1D["MITM Path 成立"]
+    E1D --> E1E["HTTP：Token 可被觀察"]
+    E1D --> E1F["HTTPS/TLS：Token 不出現在 Capture"]
+    E1F --> E1G["TLS + Certificate Validation"]
+
+    D --> E2A["E2｜Replay Attack"]
+    E2A --> E2B["第一次合法 Request → action_count = 1"]
+    E2B --> E2C["重送相同 Request"]
+    E2C -->|未防護| E2D["再次接受 → action_count = 2"]
+    E2C -->|HMAC + Timestamp + Nonce| E2E["Replay / Modified Request 被拒絕"]
+    E2E --> E2F["action_count 維持 1"]
+
+    D --> E3A["E3｜SQL Injection"]
+    E3A --> E3B["Raw SQL：正常輸入 → 1 row"]
+    E3A --> E3C["Raw SQL：惡意輸入 → 4 rows"]
+    E3C --> E3D["Parameterized Query → 0 malicious rows"]
+    E3D --> E3E["Least Privilege：Sensitive SELECT / UPDATE / DROP → DENIED"]
+    E3E --> E3F["DB State：4 → 4"]
+
+    E1G --> Z["Defense-in-Depth"]
+    E2F --> Z
+    E3F --> Z
+```
+
+不同 Trust Boundary 對應不同 Failure Domain，因此 E1、E2、E3 需要不同控制，最後以 Defense-in-Depth 串成完整防禦策略。
 
 ## 1. 核心概念
 
@@ -113,5 +150,5 @@ E1 證明網路路徑可以被 ARP Spoofing 改變，而 TLS 只能保護 hostil
 
 ## 完整含圖版
 
-- [zh-TW DOCX v2](https://drive.google.com/file/d/1tTUy0V1WAEd-rmoZVCoQdx8DP75IsvD8/view?usp=drivesdk)
-- [zh-TW PDF v2](https://drive.google.com/file/d/12nsAcLKUmIDzMTFZRDpcHqNCG2-aqvDO/view?usp=drivesdk)
+- [zh-TW DOCX v3](https://drive.google.com/file/d/1lq76TEdoumohpBA8dG4_52cCUA2m2C1M/view?usp=drivesdk)
+- [zh-TW PDF v3](https://drive.google.com/file/d/1f2LYzwfXC-QoP0rP8Xkig8__jFc-DJxM/view?usp=drivesdk)
